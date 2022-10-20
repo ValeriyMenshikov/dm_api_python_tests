@@ -1,5 +1,6 @@
 from commons.restclient.restclient import RestClient
-from apis.dm_api_account.models.account import RegistrationRequestModel, UserDetailsEnvelopeResponseModel
+from apis.dm_api_account.models.account import RegistrationRequestModel, UserDetailsEnvelopeResponseModel, \
+    UserEnvelopeResponseModel, ResetPasswordRequestModel, ChangePasswordRequestModel
 from requests import Response
 
 
@@ -56,14 +57,52 @@ class AccountApi:
             self,
             token: str,
             status_code: int = 200
-    ):
+    ) -> UserEnvelopeResponseModel:
         """
         Activate registered user
         :param token: activation token from registration email
         :param status_code: check status code
-        :return: UserDetailsEnvelopeResponseModel
+        :return: UserEnvelopeResponseModel
         """
         response = self.client.put(path=f'/v1/account/{token}')
         response_json = response.json()
         self._check_status_code(response, status_code)
-        return UserDetailsEnvelopeResponseModel(**response_json)
+        return UserEnvelopeResponseModel(**response_json)
+
+    def post_v1_account_password(
+            self,
+            reset_password_request_model: ResetPasswordRequestModel,
+            status_code: int = 200,
+    ) -> UserEnvelopeResponseModel:
+        """
+        Reset registered user password
+        :param reset_password_request_model: json data
+        :param status_code: check status code
+        :return: UserEnvelopeResponseModel
+        """
+        response = self.client.post(
+            path=f'/v1/account/password',
+            json=reset_password_request_model.to_struct()
+        )
+        response_json = response.json()
+        self._check_status_code(response, status_code)
+        return UserEnvelopeResponseModel(**response_json)
+
+    def put_v1_account_password(
+            self,
+            change_password_request_model: ChangePasswordRequestModel,
+            status_code: int = 200,
+    ) -> UserEnvelopeResponseModel:
+        """
+        Change registered user password
+        :param change_password_request_model: json data
+        :param status_code: check status code
+        :return: UserEnvelopeResponseModel
+        """
+        response = self.client.put(
+            path=f'/v1/account/password',
+            json=change_password_request_model.to_struct()
+        )
+        response_json = response.json()
+        self._check_status_code(response, status_code)
+        return UserEnvelopeResponseModel(**response_json)
