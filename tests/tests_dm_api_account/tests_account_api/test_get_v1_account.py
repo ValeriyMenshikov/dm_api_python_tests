@@ -1,3 +1,5 @@
+import pprint
+
 from apis.dm_api_account.models.login import LoginCredentialsRequestModel
 
 
@@ -14,4 +16,5 @@ def test_get_v1_account(dm_account_api):
     dm_account_api.account.set_headers(
         headers={'X-Dm-Auth-Token': response.headers['X-Dm-Auth-Token']}
     )
-    response = dm_account_api.account.get_v1_account()
+
+    response = dm_account_api.account.get_v1_account(status_code=200)

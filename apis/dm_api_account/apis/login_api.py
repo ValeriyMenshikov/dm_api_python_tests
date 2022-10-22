@@ -1,19 +1,18 @@
 import requests
-
 from apis.dm_api_account.models.account import UserEnvelopeResponseModel
-from apis.dm_api_account.models.login import LoginCredentialsRequestModel
+from apis.dm_api_account.models.login import LoginCredentialsRequestModel, GeneralErrorResponseModel
 from commons.restclient.restclient import RestClient
 
 
 class LoginApi:
     def __init__(self, host, headers=None, proxies=None):
-        self._host = host
-        self._headers = headers
-        self._proxies = proxies
+        self.host = host
+        self.headers = headers
+        self.proxies = proxies
         self.client = RestClient(
-            host=self._host,
-            headers=self._headers,
-            proxies=self._proxies,
+            host=self.host,
+            headers=self.headers,
+            proxies=self.proxies,
         )
 
     def set_headers(self, headers):
@@ -48,3 +47,37 @@ class LoginApi:
             return response
 
         return UserEnvelopeResponseModel(**response.json())
+
+    def delete_v1_account_login(
+            self,
+            status_code: int = None,
+            **kwargs
+    ) -> requests.Response:
+        """
+        Logout as current user
+        :param status_code: check status code
+        :return: request.Response
+        """
+        response = self.client.delete(
+            path=f'/v1/account/login',
+            **kwargs
+        )
+        self._check_status_code(response, status_code)
+        return response
+
+    def delete_v1_account_login_all(
+            self,
+            status_code: int = None,
+            **kwargs
+    ) -> requests.Response:
+        """
+        Logout from every device
+        :param status_code: check status code
+        :return: request.Response
+        """
+        response = self.client.delete(
+            path=f'/v1/account/login/all',
+            **kwargs
+        )
+        self._check_status_code(response, status_code)
+        return response

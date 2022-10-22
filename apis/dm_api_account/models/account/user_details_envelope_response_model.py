@@ -11,16 +11,16 @@ class PagingSettings(Base):
 
 
 class UserSettings(Base):
-    color_schema = StringField(
-        name='colorSchema')  # TODO сделать валидатор для списка доступных тем [ Modern, Pale, Classic, ClassicPale, Night ]
+    # TODO сделать валидатор для списка доступных тем [ Modern, Pale, Classic, ClassicPale, Night ]
+    color_schema = StringField(name='colorSchema')
     nanny_greetings_message = StringField(name='nannyGreetingsMessage')
     paging = EmbeddedField(PagingSettings)
 
 
 class InfoDbText(Base):
     value = StringField()
-    parse_mode = StringField(
-        name='parseMode')  # TODO сделать валидатор для списка доступных режимов [ Common, Info, Post, Chat ]
+    # TODO сделать валидатор для списка доступных режимов [ Common, Info, Post, Chat ]
+    parse_mode = StringField(name='parseMode')
 
 
 class Rating(Base):
@@ -31,8 +31,8 @@ class Rating(Base):
 
 class UserDetails(Base):
     login = StringField()
-    roles = ListField(
-        str)  # TODO сделать валидатор для списка доступных ролей [ Guest, Player, Administrator, NannyModerator, RegularModerator, SeniorModerator ]
+    # TODO сделать валидатор для списка доступных ролей [ Guest, Player, Administrator, NannyModerator, RegularModerator, SeniorModerator ]
+    roles = ListField(str)
     medium_picture_url = StringField(name='mediumPictureUrl')
     small_picture_url = StringField(name='smallPictureUrl')
     status = StringField()
@@ -49,5 +49,5 @@ class UserDetails(Base):
 
 
 class UserDetailsEnvelopeResponseModel(Base):
-    resource = EmbeddedField(UserDetails)
+    resource = EmbeddedField(UserDetails, required=True)
     metadata = StringField()

@@ -6,13 +6,13 @@ from requests import Response
 
 class AccountApi:
     def __init__(self, host, headers=None, proxies=None):
-        self._host = host
-        self._headers = headers
-        self._proxies = proxies
+        self.host = host
+        self.headers = headers
+        self.proxies = proxies
         self.client = RestClient(
-            host=self._host,
-            headers=self._headers,
-            proxies=self._proxies,
+            host=self.host,
+            headers=self.headers,
+            proxies=self.proxies,
         )
 
     def set_headers(self, headers):
