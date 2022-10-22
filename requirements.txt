@@ -4,3 +4,4 @@ allure-pytest
 psycopg2-binary
 vyper-config
 jsonmodels
+structlog
